@@ -1,0 +1,31 @@
+{
+  "name": "notes",
+  "version": "0.0.0",
+  "dependencies": {
+    "bootstrap": "*",
+    "angular": "~1.4.8"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
+    "foundation": {
+      "main": [
+        "css/foundation.css",
+        "js/foundation.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css"
+      ]
+    }
+  },
+  "resolutions": {
+    "angular": "~1.4.8"
+  }
+}
