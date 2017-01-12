@@ -12,18 +12,7 @@
 			<input type="password" class="form-control" id="password" ng-model="password" required>
 		</div>
 
-		<button type="button" class="btn btn-default" ng-click="loginVM.loginService.login(username, password)" ng-disabled="loginForm.$invalid">Login</button>
+		<button type="button" class="btn btn-default" ng-click="loginVM.loginService.login(username, password)" ng-disabled="loginForm.$invalid">Login</button> <span>or <a ui-sref="register">register</a></span>
 	</form>
-
-
-
-
-
-	<!--<button ng-click="demoCtrlVM.demoService.getExcited = !demoCtrlVM.demoService.getExcited">
-		Go ahead, click me - I'm wired up to ng ready to go!
-	</button>
-	<div ng-show="demoCtrlVM.demoService.getExcited">
-		<h3>Yeeehaww!</h3>
-	</div>-->
 
 </div>

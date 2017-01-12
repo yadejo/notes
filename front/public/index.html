@@ -19,22 +19,7 @@
 		.starter-template {
 			padding: 40px 15px;
 			text-align: center;
-		}
-
-		.modal.ng-enter {
-  transition: opacity .5s ease-out;
-  opacity: 0;
-}
-.modal.ng-enter.ng-enter-active {
-  opacity: 1;
-}
-.modal.ng-leave {
-  transition: opacity .5s ease-out;
-  opacity: 1;
-}
-.modal.ng-leave.ng-leave-active {
-  opacity: 0;
-}
+		}		
 	</style>
 
 	<!--[if lt IE 9]>
@@ -50,8 +35,9 @@
 		<h1>Welcome to <i>notes</i>, yo!</h1>
 		<p class="lead">For taking notes and stuff</p>
 
-		<login ng-hide="true"></login>
-		<notes></notes>
+
+			<section ui-view></section>
+
 
 	</div>
 
@@ -61,6 +47,7 @@
 	<script src="lib/jquery/dist/jquery.js"></script>
 	<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
 	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
 	<!-- endbower -->
 
 	<!-- inject:js -->
