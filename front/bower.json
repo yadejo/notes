@@ -4,8 +4,7 @@
   "dependencies": {
     "bootstrap": "*",
     "angular": "~1.4.8",
-    "angular-ui-router": "^0.3.2",
-    "angular-ui": "^0.4.0"
+    "angular-ui-router": "^0.3.2"
   },
   "overrides": {
     "bootstrap": {

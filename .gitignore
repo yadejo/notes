@@ -329,3 +329,4 @@ __pycache__/
 # tools/
 
 # End of https://www.gitignore.io/api/node,csharp
+lib
