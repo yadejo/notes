@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity;
 
 namespace Notes.API.Models
 {
@@ -24,7 +25,10 @@ namespace Notes.API.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-        
+
+        public virtual DbSet<Note> Notes { get; set; }
+        public virtual DbSet<NoteContainer> NoteContainers { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

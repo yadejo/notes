@@ -207,13 +207,34 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Data\NoteService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701121445248_InitialCreate.cs" />
+    <Compile Include="Migrations\201701121445248_InitialCreate.Designer.cs">
+      <DependentUpon>201701121445248_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701121453592_Init.cs" />
+    <Compile Include="Migrations\201701121453592_Init.Designer.cs">
+      <DependentUpon>201701121453592_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701121526332_Init2.cs" />
+    <Compile Include="Migrations\201701121526332_Init2.Designer.cs">
+      <DependentUpon>201701121526332_Init2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701121535146_Init3.cs" />
+    <Compile Include="Migrations\201701121535146_Init3.Designer.cs">
+      <DependentUpon>201701121535146_Init3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Note.cs" />
+    <Compile Include="Models\NoteContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -284,6 +305,20 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201701121445248_InitialCreate.resx">
+      <DependentUpon>201701121445248_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121453592_Init.resx">
+      <DependentUpon>201701121453592_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121526332_Init2.resx">
+      <DependentUpon>201701121526332_Init2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701121535146_Init3.resx">
+      <DependentUpon>201701121535146_Init3.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
