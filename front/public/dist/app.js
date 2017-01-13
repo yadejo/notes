@@ -37,33 +37,6 @@ angular.module('notesApp', [
 /// <reference path="../../../typings/index.d.ts" />
 var app;
 (function (app) {
-    var login;
-    (function (login) {
-        'use strict';
-        var LoginCtrl = (function () {
-            function LoginCtrl($scope, authService) {
-                this.$scope = $scope;
-                this.authService = authService;
-            }
-            LoginCtrl.$inject = ["$scope", "authService"];
-            return LoginCtrl;
-        }());
-        login.LoginCtrl = LoginCtrl;
-        angular
-            .module('app.login', [])
-            .directive("login", function () {
-            return {
-                templateUrl: 'app-templates/login/login.html',
-                controller: LoginCtrl,
-                controllerAs: 'loginVM'
-            };
-        })
-            .controller("loginCtrl", LoginCtrl);
-    })(login = app.login || (app.login = {}));
-})(app || (app = {}));
-/// <reference path="../../../typings/index.d.ts" />
-var app;
-(function (app) {
     var notes;
     (function (notes_1) {
         var NotesCtrl = (function () {
@@ -148,6 +121,33 @@ var app;
             .controller("notesCtrl", NotesCtrl)
             .factory("notesService", [function () { return new app.notes.NotesService(); }]);
     })(notes = app.notes || (app.notes = {}));
+})(app || (app = {}));
+/// <reference path="../../../typings/index.d.ts" />
+var app;
+(function (app) {
+    var login;
+    (function (login) {
+        'use strict';
+        var LoginCtrl = (function () {
+            function LoginCtrl($scope, authService) {
+                this.$scope = $scope;
+                this.authService = authService;
+            }
+            LoginCtrl.$inject = ["$scope", "authService"];
+            return LoginCtrl;
+        }());
+        login.LoginCtrl = LoginCtrl;
+        angular
+            .module('app.login', [])
+            .directive("login", function () {
+            return {
+                templateUrl: 'app-templates/login/login.html',
+                controller: LoginCtrl,
+                controllerAs: 'loginVM'
+            };
+        })
+            .controller("loginCtrl", LoginCtrl);
+    })(login = app.login || (app.login = {}));
 })(app || (app = {}));
 /// <reference path="../../../typings/index.d.ts" />
 var app;
@@ -240,7 +240,7 @@ var app;
     })(shared = app.shared || (app.shared = {}));
 })(app || (app = {}));
 angular.module("app.templates", []).run(["$templateCache", function ($templateCache) {
-        $templateCache.put("app-templates/login/login.html", "<div id=\"login-inject\">\r\n\r\n	<h2>Login</h2>\r\n\r\n	<form id=\"login-form\" name=\"loginForm\">\r\n		<div class=\"form-group\">\r\n			<label for=\"username\">Username:</label>\r\n			<input type=\"text\" class=\"form-control\" id=\"username\" ng-model=\"username\" required>\r\n		</div>\r\n		<div class=\"form-group\">\r\n			<label for=\"password\">Password:</label>\r\n			<input type=\"password\" class=\"form-control\" id=\"password\" ng-model=\"password\" required>\r\n		</div>\r\n\r\n		<button type=\"button\" class=\"btn btn-default\" ng-click=\"loginVM.authService.login(username, password)\" ng-disabled=\"loginForm.$invalid\">Login</button> <span>or <a ui-sref=\"register\">register</a></span>\r\n	</form>\r\n\r\n</div>");
         $templateCache.put("app-templates/notes/notes.html", "<div class=\"new-note-container\">\r\n    <form class=\"form-inline\" ng-submit=\"notesVM.addContainer()\">\r\n        <div class=\"form-group\">\r\n            <label for=\"new-container\">New container: </label>\r\n            <input type=\"text\" class=\"form-control\" id=\"new-container\" ng-model=\"newContainerName\">\r\n        </div>\r\n\r\n        <button type=\"submit\" class=\"btn btn-default\">+</button>\r\n    </form>\r\n</div>\r\n\r\n<div class=\"note-wrapper\">\r\n\r\n        <div class=\"note-container\" ng-repeat=\"notecontainer in notes\">\r\n            <div class=\"note-container-name\"><span>{{notecontainer.name}} </span> <span title=\"Remove container\" ng-click=\"notesVM.removeContainer(notecontainer)\" class=\"glyphicon glyphicon-trash remove-container-icon\"></span></div>\r\n            \r\n            <div class=\"note\" ng-repeat=\"note in notecontainer.notes\">\r\n                <label class=\"note-name\" ng-class=\"{\'note-completed\': note.isComplete}\"><input type=\"checkbox\" ng-model=\"note.isComplete\" ng-change=\"notesVM.onCheck(note, notecontainer)\"> {{note.content}}</label>\r\n               \r\n            </div>\r\n\r\n             <form class=\"form-inline note-add-container\" ng-submit=\"notesVM.addNote(notecontainer)\">\r\n                 <div class=\"form-group\">\r\n                     <input class=\"form-control\" type=\"text\" ng-model=\"notecontainer.newNote.content\">\r\n                     <button class=\"btn btn-default\" type=\"submit\">+</button>\r\n                 </div>\r\n             </form>\r\n        </div>\r\n\r\n</div>");
+        $templateCache.put("app-templates/login/login.html", "<div id=\"login-inject\">\r\n\r\n	<h2>Login</h2>\r\n\r\n	<form id=\"login-form\" name=\"loginForm\">\r\n		<div class=\"form-group\">\r\n			<label for=\"username\">Username:</label>\r\n			<input type=\"text\" class=\"form-control\" id=\"username\" ng-model=\"username\" required>\r\n		</div>\r\n		<div class=\"form-group\">\r\n			<label for=\"password\">Password:</label>\r\n			<input type=\"password\" class=\"form-control\" id=\"password\" ng-model=\"password\" required>\r\n		</div>\r\n\r\n		<button type=\"button\" class=\"btn btn-default\" ng-click=\"loginVM.authService.login(username, password)\" ng-disabled=\"loginForm.$invalid\">Login</button> <span>or <a ui-sref=\"register\">register</a></span>\r\n	</form>\r\n\r\n</div>");
         $templateCache.put("app-templates/register/register.html", "<div id=\"register-inject\">\r\n\r\n	<h2>Register</h2>\r\n<form id=\"register-form\" name=\"registerForm\">\r\n		<div class=\"form-group\">\r\n			<label for=\"name\">Name:</label>\r\n			<input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"name\" required>\r\n		</div>\r\n        <div class=\"form-group\">\r\n			<label for=\"email\">Email:</label>\r\n			<input type=\"email\" class=\"form-control\" id=\"email\" ng-model=\"email\" required>\r\n		</div>\r\n		<div class=\"form-group\">\r\n			<label for=\"password\">Password:</label>\r\n			<input type=\"password\" class=\"form-control\" id=\"password\" ng-model=\"password\" required>\r\n		</div>\r\n\r\n        <div class=\"form-group\">\r\n			<label for=\"confirm-password\">Confirm password:</label>\r\n			<input type=\"password\" class=\"form-control\" id=\"confirm-password\" ng-model=\"confirmPassword\" required>\r\n		</div>\r\n\r\n		<button type=\"button\" class=\"btn btn-default\" ng-click=\"registerVM.registerService.register(maakditnog)\" ng-disabled=\"registerForm.$invalid\">Register</button> <span>or back to <a ui-sref=\"login\">login</a></span>\r\n	</form>\r\n\r\n</div>");
     }]);
