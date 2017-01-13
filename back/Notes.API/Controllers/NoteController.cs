@@ -84,7 +84,7 @@ namespace Notes.API.Controllers
             return Ok();
         }
 
-        [Route("{containerId:int/noteId:int}")]
+        [Route("{containerId:int}/{noteId:int}")]
         public async Task<IHttpActionResult> Delete(int containerId, int noteId)
         {
             var id = GetUserId();

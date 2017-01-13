@@ -5,7 +5,10 @@ angular.module('notesApp', [
     'app.register',
     'app.templates',
     'app.notes',
-    'ui.router'
+    'ui.router',
+    'app.shared',
+    'angular-loading-bar',
+    'ngAnimate'
 ]).config(function($stateProvider, $urlRouterProvider){
     $stateProvider
         .state("notes", {
@@ -25,4 +28,14 @@ angular.module('notesApp', [
         });
 
         $urlRouterProvider.otherwise("/login");
+
+}).run(function($rootScope, $state, authService){
+    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+        
+            if(toState.authenticate && !authService.isLoggedIn()){
+                $state.transitionTo("login");
+                event.preventDefault();
+            }      
+
+    });
 });

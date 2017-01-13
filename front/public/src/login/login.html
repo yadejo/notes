@@ -12,7 +12,7 @@
 			<input type="password" class="form-control" id="password" ng-model="password" required>
 		</div>
 
-		<button type="button" class="btn btn-default" ng-click="loginVM.loginService.login(username, password)" ng-disabled="loginForm.$invalid">Login</button> <span>or <a ui-sref="register">register</a></span>
+		<button type="button" class="btn btn-default" ng-click="loginVM.authService.login(username, password)" ng-disabled="loginForm.$invalid">Login</button> <span>or <a ui-sref="register">register</a></span>
 	</form>
 
 </div>

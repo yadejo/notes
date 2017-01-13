@@ -4,7 +4,10 @@
   "dependencies": {
     "bootstrap": "*",
     "angular": "~1.4.8",
-    "angular-ui-router": "^0.3.2"
+    "angular-ui-router": "^0.3.2",
+    "angular-local-storage": "^0.5.2",
+    "angular-loading-bar": "^0.9.0",
+    "angular-toastr": "^2.1.1"
   },
   "overrides": {
     "bootstrap": {

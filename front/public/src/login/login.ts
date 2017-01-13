@@ -7,20 +7,11 @@ module app.login {
     export interface ILoginCtrl {}
 
     export class LoginCtrl implements ILoginCtrl {
-        static $inject = ["$scope", "loginService"];
+        static $inject = ["$scope", "authService"];
         constructor(
             public $scope: ng.IScope,
-            public loginService: LoginService
+            public authService: any
         ){}
-    }
-
-    export interface ILoginService {
-        login(username: string, password: string): void;
-    }
-    export class LoginService implements ILoginService {
-        public login = (username: string, password:string) =>{
-            console.log(username + " " + password);
-        }
     }
 
     angular
@@ -32,6 +23,5 @@ module app.login {
                 controllerAs: 'loginVM'
             };
         })
-        .controller("loginCtrl", LoginCtrl)
-        .factory("loginService", [() => new app.login.LoginService()]);
+        .controller("loginCtrl", LoginCtrl);
 }
