@@ -9,7 +9,7 @@ var myApp = angular.module('notesApp', [
     'app.shared',
     'angular-loading-bar',
     'ngAnimate'
-]).config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+]).config(function ($stateProvider, $urlRouterProvider, $httpProvider, toastrConfig) {
     $stateProvider
         .state("notes", {
         url: "/notes",
@@ -31,6 +31,11 @@ var myApp = angular.module('notesApp', [
     });
     $urlRouterProvider.otherwise("/login");
     $httpProvider.interceptors.push("authInterceptorService");
+    angular.extend(toastrConfig, {
+        positionClass: 'toast-bottom-right',
+        progressBar: true,
+        closeButton: true
+    });
 }).run(function ($rootScope, $state, authService) {
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
         if ((toState.name === "register" || toState.name === "login") && authService.isLoggedIn()) {
@@ -155,7 +160,7 @@ var app;
                 var _this = this;
                 this.$http = $http;
                 this.toastr = toastr;
-                this.apiBase = "http://notes.zawada.be/";
+                this.apiBase = "https://notes.zawada.be/";
                 this.loadNotes = function () {
                     return _this.$http.get(_this.apiBase + "api/note", null);
                 };
@@ -327,7 +332,7 @@ var app;
                 this.localStorageService = localStorageService;
                 this.toastr = toastr;
                 this.$state = $state;
-                this.serviceBase = "http://notes.zawada.be/";
+                this.serviceBase = "https://notes.zawada.be/";
                 this.loggedIn = false;
                 this.isLoggedIn = function () {
                     var authData = _this.localStorageService.get('authorizationData');
@@ -351,7 +356,6 @@ var app;
                         _this.loggedIn = true;
                         _this.localStorageService.set('authorizationData', { token: response.access_token, username: username });
                         _this.$state.go("notes");
-                        _this.toastr.success("You were logged in", "Success");
                         deferred.resolve(response);
                     }).error(function (response) {
                         if (!response) {

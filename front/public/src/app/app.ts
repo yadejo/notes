@@ -10,7 +10,7 @@ var myApp = angular.module('notesApp', [
     'app.shared',
     'angular-loading-bar',
     'ngAnimate'
-]).config(function($stateProvider, $urlRouterProvider, $httpProvider){
+]).config(function($stateProvider, $urlRouterProvider, $httpProvider, toastrConfig){
     $stateProvider
         .state("notes", {
             url: "/notes",
@@ -35,6 +35,11 @@ var myApp = angular.module('notesApp', [
         $httpProvider.interceptors.push("authInterceptorService");
 
 
+        angular.extend(toastrConfig, {
+            positionClass: 'toast-bottom-right',
+            progressBar: true,
+            closeButton: true
+        });
 }).run(function($rootScope, $state, authService){
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
 

@@ -11,7 +11,7 @@ module app.shared{
     }
 
     export class AuthService implements IAuthService{
-        private serviceBase: string = "http://notes.zawada.be/"
+        private serviceBase: string = "https://notes.zawada.be/"
         loggedIn: boolean = false;
     
  
@@ -52,7 +52,6 @@ module app.shared{
                     this.localStorageService.set('authorizationData', {token: response.access_token, username: username})
 
                     this.$state.go("notes");
-                    this.toastr.success("You were logged in", "Success");
                     deferred.resolve(response);
                 }).error((response:any) : void=>{
                     if(!response){

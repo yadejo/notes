@@ -88,7 +88,7 @@ module app.notes {
     }
     export class NotesService  {
 
-        apiBase : string ="http://notes.zawada.be/"
+        apiBase : string ="https://notes.zawada.be/"
 
         constructor(public $http: ng.IHttpService, public toastr: any){
 
