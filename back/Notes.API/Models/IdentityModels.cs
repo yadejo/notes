@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
 
 namespace Notes.API.Models
@@ -18,12 +17,25 @@ namespace Notes.API.Models
             return userIdentity;
         }
     }
-
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());            
+        }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            
+        
+            base.OnModelCreating(modelBuilder);
+
+            // email address doesn't need to be in unicode, check it spec
+            modelBuilder.Entity<ApplicationUser>().Property(u => u.UserName).IsUnicode(false);
+            modelBuilder.Entity<ApplicationUser>().Property(u => u.Email).IsUnicode(false);
+            modelBuilder.Entity<IdentityRole>().Property(r => r.Name).HasMaxLength(255);
         }
 
         public virtual DbSet<Note> Notes { get; set; }
@@ -34,4 +46,5 @@ namespace Notes.API.Models
             return new ApplicationDbContext();
         }
     }
+
 }

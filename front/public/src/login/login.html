@@ -1,8 +1,9 @@
 <div id="login-inject">
-
 	<h2>Login</h2>
-
-	<form id="login-form" name="loginForm">
+	<div ng-hide="loginVM.authService.isLoggedIn()">
+	
+		
+	<form id="login-form" name="loginForm" ng-submit="loginVM.authService.login(username, password)">
 		<div class="form-group">
 			<label for="username">Username:</label>
 			<input type="text" class="form-control" id="username" ng-model="username" required>
@@ -12,7 +13,12 @@
 			<input type="password" class="form-control" id="password" ng-model="password" required>
 		</div>
 
-		<button type="button" class="btn btn-default" ng-click="loginVM.authService.login(username, password)" ng-disabled="loginForm.$invalid">Login</button> <span>or <a ui-sref="register">register</a></span>
+		<button type="submit" class="btn btn-default" ng-disabled="loginForm.$invalid">Login</button> <span>or <a ui-sref="register">register</a></span>
 	</form>
+</div>
 
+<div ng-show="loginVM.authService.isLoggedIn()">
+	<p>You are already logged in, {{loginVM.authService.userName()}}</p>
+	<p>Click <a href="" ng-click="loginVM.authService.logout()">here</a> to log out.</p>
+</div>
 </div>

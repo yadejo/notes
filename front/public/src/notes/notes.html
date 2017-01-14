@@ -12,16 +12,16 @@
 <div class="note-wrapper">
 
         <div class="note-container" ng-repeat="notecontainer in notes">
-            <div class="note-container-name"><span>{{notecontainer.name}} </span> <span title="Remove container" ng-click="notesVM.removeContainer(notecontainer)" class="glyphicon glyphicon-trash remove-container-icon"></span></div>
+            <div class="note-container-name"><span>{{notecontainer.Name}} </span> <span title="Remove container" ng-click="notesVM.removeContainer(notecontainer)" class="glyphicon glyphicon-trash remove-container-icon"></span></div>
             
-            <div class="note" ng-repeat="note in notecontainer.notes">
-                <label class="note-name" ng-class="{'note-completed': note.isComplete}"><input type="checkbox" ng-model="note.isComplete" ng-change="notesVM.onCheck(note, notecontainer)"> {{note.content}}</label>
+            <div class="note" ng-repeat="note in notecontainer.Notes">
+                <label class="note-name" ng-class="{'note-completed': note.IsComplete}"><input type="checkbox" ng-model="note.IsComplete" ng-change="notesVM.onCheck(note, notecontainer)"> {{note.Content}}</label>
                
             </div>
 
              <form class="form-inline note-add-container" ng-submit="notesVM.addNote(notecontainer)">
                  <div class="form-group">
-                     <input class="form-control" type="text" ng-model="notecontainer.newNote.content">
+                     <input class="form-control" type="text" ng-model="notecontainer.newNote.Content">
                      <button class="btn btn-default" type="submit">+</button>
                  </div>
              </form>

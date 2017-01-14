@@ -1,40 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Notes.API.Controllers
 {
-    [Authorize]
+    [RoutePrefix("api/values")]
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        public string[] Get()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+            using (var contex = new Models.ApplicationDbContext())
+            {
+                contex.Database.CreateIfNotExists();
+                contex.Database.Initialize(true);
+                contex.Notes.ToList();
+            }
+                return new string[] { "nicolas", "zawada" };
         }
     }
 }

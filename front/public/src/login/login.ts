@@ -6,12 +6,25 @@ module app.login {
 
     export interface ILoginCtrl {}
 
+    export interface ILoginScope extends ng.IScope{
+        username: string;
+    }
+
     export class LoginCtrl implements ILoginCtrl {
-        static $inject = ["$scope", "authService"];
+        static $inject = ["$scope", "authService", "$state"];
         constructor(
-            public $scope: ng.IScope,
-            public authService: any
-        ){}
+            public $scope: ILoginScope,
+            public authService: any,
+            public $state: any
+        ){
+            var email: string = $state.params.email;
+
+            if(email){
+                $scope.username = email;
+            }
+
+
+        }
     }
 
     angular

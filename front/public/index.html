@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="notesApp">
+<html lang="en" ng-app="notesApp" ng-controller="mainCtrl as vm" ng-cloak>
 <head>
 	<meta charset="UTF-8">
 	<title>notes</title>
@@ -17,11 +17,7 @@
 	<!-- endinject -->
 
 	<style>
-		body {
-			padding-top: 50px;
-		}
 		.starter-template {
-			padding: 40px 15px;
 			text-align: center;
 		}		
 	</style>
@@ -32,6 +28,17 @@
 
 </head>
 <body>
+
+	<nav class="navbar navbar-default" ng-show="vm.authService.isLoggedIn()" ng-cloak>
+		<div class="container-fluid">
+		<ul class="nav navbar-nav navbar-right">
+				<p class="navbar-text">Hello, {{vm.authService.userName()}}</p>
+				<li><a href="#" ng-click="vm.authService.logout()">Logout</a></li>
+				
+			</ul>
+
+		</div>
+	</nav>
 
 <div class="container">
 
