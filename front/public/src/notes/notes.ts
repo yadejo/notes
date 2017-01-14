@@ -18,15 +18,9 @@ module app.notes {
             public $http: ng.IHttpService
         ) {
             var notes = notesService.loadNotes().then((response:any)=>{
-                var data = JSON.stringify(response.data);
-                
+                var data = JSON.stringify(response.data);                
                 let notes: Array<INoteContainer> = JSON.parse(data);
-
                 $scope.notes = notes;
-                console.log(notes);
-
-                console.log($scope.notes);
-
             });
         }
 
@@ -128,7 +122,7 @@ module app.notes {
 
         removeContainer = (containerId : number) =>{
             this.$http.delete(this.apiBase + "api/note/" + containerId, null).then((response:any)=>{
-                console.log(response);
+
             })
         }
 

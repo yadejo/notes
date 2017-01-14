@@ -4,7 +4,7 @@
 module app.intercept{
     export class AuthInterceptorService{
 
-        constructor(public $q: ng.IQService, public localStorageService: any){
+        constructor(public $q: ng.IQService, public localStorageService: any, public $injector:any){
 
         }
 
@@ -23,10 +23,15 @@ module app.intercept{
         public responseError = (rejection: any) =>{
             if(rejection.status===401){
                 var authData = this.localStorageService.get('authorizationData');
-               console.log('nope');
+                var authService = this.$injector.get('authService');
+                var state = this.$injector.get('$state');
+
                if(authData){
-                   
+                console.log('nope');                   
                }
+
+               authService.logout();
+               state.go('login');
                
             }
             return this.$q.reject(rejection);
@@ -34,7 +39,7 @@ module app.intercept{
 
 
         static factory(){
-            var instance = ($q: ng.IQService, localStorageService: any) => new AuthInterceptorService($q, localStorageService);
+            var instance = ($q: ng.IQService, localStorageService: any, $injector: any) => new AuthInterceptorService($q, localStorageService, $injector);
 
             return instance;
         }

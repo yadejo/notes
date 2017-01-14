@@ -33,9 +33,10 @@ module app.shared{
 
         userName = () =>{
             var authData = this.localStorageService.get('authorizationData');
-
+            
             if(authData){
-                return authData.username;
+                var email: string = authData.username;
+                return email.substring(0, email.indexOf("@"));
             }
         }   
 
@@ -46,7 +47,7 @@ module app.shared{
             
             this.$http.post(this.serviceBase + 'token', data, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
                 .success((response:any): void =>{
-                    //hier
+               
                     this.loggedIn = true;
                     this.localStorageService.set('authorizationData', {token: response.access_token, username: username})
 
@@ -80,8 +81,6 @@ module app.shared{
                 this.toastr.error(errorArr[1], "Error");
             });
         }
-
-
 
         logout = () =>{
             this.localStorageService.remove('authorizationData');

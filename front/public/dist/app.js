@@ -144,8 +144,6 @@ var app;
                     var data = JSON.stringify(response.data);
                     var notes = JSON.parse(data);
                     $scope.notes = notes;
-                    console.log(notes);
-                    console.log($scope.notes);
                 });
             }
             NotesCtrl.$inject = ["$scope", "notesService", "$http"];
@@ -180,7 +178,6 @@ var app;
                 };
                 this.removeContainer = function (containerId) {
                     _this.$http.delete(_this.apiBase + "api/note/" + containerId, null).then(function (response) {
-                        console.log(response);
                     });
                 };
             }
@@ -278,10 +275,11 @@ var app;
     var intercept;
     (function (intercept) {
         var AuthInterceptorService = (function () {
-            function AuthInterceptorService($q, localStorageService) {
+            function AuthInterceptorService($q, localStorageService, $injector) {
                 var _this = this;
                 this.$q = $q;
                 this.localStorageService = localStorageService;
+                this.$injector = $injector;
                 this.request = function (config) {
                     config.headers = config.headers || {};
                     var authData = _this.localStorageService.get('authorizationData');
@@ -293,15 +291,19 @@ var app;
                 this.responseError = function (rejection) {
                     if (rejection.status === 401) {
                         var authData = _this.localStorageService.get('authorizationData');
-                        console.log('nope');
+                        var authService = _this.$injector.get('authService');
+                        var state = _this.$injector.get('$state');
                         if (authData) {
+                            console.log('nope');
                         }
+                        authService.logout();
+                        state.go('login');
                     }
                     return _this.$q.reject(rejection);
                 };
             }
             AuthInterceptorService.factory = function () {
-                var instance = function ($q, localStorageService) { return new AuthInterceptorService($q, localStorageService); };
+                var instance = function ($q, localStorageService, $injector) { return new AuthInterceptorService($q, localStorageService, $injector); };
                 return instance;
             };
             return AuthInterceptorService;
@@ -337,7 +339,8 @@ var app;
                 this.userName = function () {
                     var authData = _this.localStorageService.get('authorizationData');
                     if (authData) {
-                        return authData.username;
+                        var email = authData.username;
+                        return email.substring(0, email.indexOf("@"));
                     }
                 };
                 this.login = function (username, password) {
@@ -345,7 +348,6 @@ var app;
                     var deferred = _this.$q.defer();
                     _this.$http.post(_this.serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                         .success(function (response) {
-                        //hier
                         _this.loggedIn = true;
                         _this.localStorageService.set('authorizationData', { token: response.access_token, username: username });
                         _this.$state.go("notes");
@@ -396,6 +398,6 @@ var app;
 })(app || (app = {}));
 angular.module("app.templates", []).run(["$templateCache", function ($templateCache) {
         $templateCache.put("app-templates/login/login.html", "<div id=\"login-inject\">\r\n	<h2>Login</h2>\r\n	<div ng-hide=\"loginVM.authService.isLoggedIn()\">\r\n	\r\n		\r\n	<form id=\"login-form\" name=\"loginForm\" ng-submit=\"loginVM.authService.login(username, password)\">\r\n		<div class=\"form-group\">\r\n			<label for=\"username\">Username:</label>\r\n			<input type=\"text\" class=\"form-control\" id=\"username\" ng-model=\"username\" required>\r\n		</div>\r\n		<div class=\"form-group\">\r\n			<label for=\"password\">Password:</label>\r\n			<input type=\"password\" class=\"form-control\" id=\"password\" ng-model=\"password\" required>\r\n		</div>\r\n\r\n		<button type=\"submit\" class=\"btn btn-default\" ng-disabled=\"loginForm.$invalid\">Login</button> <span>or <a ui-sref=\"register\">register</a></span>\r\n	</form>\r\n</div>\r\n\r\n<div ng-show=\"loginVM.authService.isLoggedIn()\">\r\n	<p>You are already logged in, {{loginVM.authService.userName()}}</p>\r\n	<p>Click <a href=\"\" ng-click=\"loginVM.authService.logout()\">here</a> to log out.</p>\r\n</div>\r\n</div>");
-        $templateCache.put("app-templates/notes/notes.html", "<div class=\"new-note-container\">\r\n    <form class=\"form-inline\" ng-submit=\"notesVM.addContainer()\">\r\n        <div class=\"form-group\">\r\n            <label for=\"new-container\">New container: </label>\r\n            <input type=\"text\" class=\"form-control\" id=\"new-container\" ng-model=\"newContainerName\">\r\n        </div>\r\n\r\n        <button type=\"submit\" class=\"btn btn-default\">+</button>\r\n    </form>\r\n</div>\r\n\r\n<div class=\"note-wrapper\">\r\n\r\n        <div class=\"note-container\" ng-repeat=\"notecontainer in notes\">\r\n            <div class=\"note-container-name\"><span>{{notecontainer.Name}} </span> <span title=\"Remove container\" ng-click=\"notesVM.removeContainer(notecontainer)\" class=\"glyphicon glyphicon-trash remove-container-icon\"></span></div>\r\n            \r\n            <div class=\"note\" ng-repeat=\"note in notecontainer.Notes\">\r\n                <label class=\"note-name\" ng-class=\"{\'note-completed\': note.IsComplete}\"><input type=\"checkbox\" ng-model=\"note.IsComplete\" ng-change=\"notesVM.onCheck(note, notecontainer)\"> {{note.Content}}</label>\r\n               \r\n            </div>\r\n\r\n             <form class=\"form-inline note-add-container\" ng-submit=\"notesVM.addNote(notecontainer)\">\r\n                 <div class=\"form-group\">\r\n                     <input class=\"form-control\" type=\"text\" ng-model=\"notecontainer.newNote.Content\">\r\n                     <button class=\"btn btn-default\" type=\"submit\">+</button>\r\n                 </div>\r\n             </form>\r\n        </div>\r\n\r\n</div>");
+        $templateCache.put("app-templates/notes/notes.html", "<div class=\"new-note-container\">\r\n            <form ng-submit=\"notesVM.addContainer()\">\r\n            <label for=\"new-container\">New container: </label>\r\n                <div class=\"input-group\">\r\n                \r\n                    <input type=\"text\" class=\"form-control\" ng-model=\"newContainerName\">\r\n                    <span class=\"input-group-btn\">\r\n                        <button class=\"btn btn-default\" type=\"button\">+</button>\r\n                    </span>\r\n                </div>\r\n            </form>\r\n</div>\r\n\r\n<div class=\"note-wrapper\">\r\n\r\n        <div class=\"note-container\" ng-repeat=\"notecontainer in notes\">\r\n            <div class=\"note-container-name\"><span>{{notecontainer.Name}} </span> <span title=\"Remove container\" ng-click=\"notesVM.removeContainer(notecontainer)\" class=\"glyphicon glyphicon-trash remove-container-icon\"></span></div>\r\n            \r\n            <div class=\"note\" ng-repeat=\"note in notecontainer.Notes\">\r\n                <label class=\"note-name\" ng-class=\"{\'note-completed\': note.IsComplete}\"><input type=\"checkbox\" ng-model=\"note.IsComplete\" ng-change=\"notesVM.onCheck(note, notecontainer)\"> {{note.Content}}</label>\r\n            </div>\r\n            <form ng-submit=\"notesVM.addNote(notecontainer)\">\r\n                <div class=\"input-group note-add-container\">\r\n                    <input type=\"text\" class=\"form-control\" ng-model=\"notecontainer.newNote.Content\">\r\n                        <span class=\"input-group-btn\">\r\n                        <button class=\"btn btn-default\" type=\"submit\">+</button>\r\n                    </span>\r\n                </div>\r\n            </form>\r\n\r\n             \r\n        </div>\r\n\r\n</div>");
         $templateCache.put("app-templates/register/register.html", "<div id=\"register-inject\">\r\n\r\n	<h2>Register</h2>\r\n<form id=\"register-form\" name=\"registerForm\" ng-submit=\"register(registration)\" ng-init=\"valid=false\">\r\n        <div class=\"form-group\">\r\n			<label for=\"email\">Email:</label>\r\n			<input class=\"form-control\" id=\"email\" ng-model=\"registration.Email\" ng-blur=\"registerVM.executeValidateEmail()\" required>\r\n		</div>\r\n		<div class=\"form-group\">\r\n			<label for=\"password\">Password:</label>\r\n			<input type=\"password\" class=\"form-control\" id=\"password\" ng-model=\"registration.Password\" required>\r\n		</div>\r\n\r\n        <div class=\"form-group\">\r\n			<label for=\"confirm-password\">Confirm password:</label>\r\n			<input type=\"password\" class=\"form-control\" id=\"confirm-password\" ng-model=\"registration.ConfirmPassword\" required>\r\n		</div>\r\n\r\n		<p style=\"color:red;\" ng-show=\"registration.Password!=registration.ConfirmPassword && registration.ConfirmPassword\">Passwords must match</p>\r\n		<p style=\"color: red;\" ng-show=\"registration.Password.length < 6\">Password must be at least 6 characters</p>\r\n		<p style=\"color: red;\" ng-show=\"showMailValidation\">Please enter a valid e-mail address</p>\r\n\r\n		<button type=\"submit\" class=\"btn btn-default\" ng-disabled=\"!canRegister\">Register</button> <span>or back to <a ui-sref=\"login\">login</a></span>\r\n	</form>\r\n\r\n</div>");
     }]);

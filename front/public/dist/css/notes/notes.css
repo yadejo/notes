@@ -45,7 +45,8 @@
   left: 0; }
 
 .new-note-container {
-  margin: 25px auto; }
+  margin: 25px auto;
+  max-width: 243px; }
 
 .remove-container-icon {
   float: right;

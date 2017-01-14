@@ -32,9 +32,7 @@
 	<nav class="navbar navbar-default" ng-show="vm.authService.isLoggedIn()" ng-cloak>
 		<div class="container-fluid">
 		<ul class="nav navbar-nav navbar-right">
-				<p class="navbar-text">Hello, {{vm.authService.userName()}}</p>
-				<li><a href="#" ng-click="vm.authService.logout()">Logout</a></li>
-				
+				<p ng-cloak class="navbar-text">Hello, {{vm.authService.userName()}} | <a href="#" ng-click="vm.authService.logout()">Logout</a></p>
 			</ul>
 
 		</div>
